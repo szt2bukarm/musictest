@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    
+    <div class="page-wrapper">
+    <div id="player"></div>
+        <div class="controls">
+            <button onclick="playButton(this)" class="PlayPause">></button>
+            <p class="current-time">00:00</p>
+            <input class="player-slider" type="range" value=0 min=0 step=1 onmousedown="player.pauseVideo()"
+            onmouseup="player.playVideo()" oninput="updateTimeStamps()" onchange="player.seekTo(this.value)"></input>
+            <p class="total-time">00:00</p>
+        </div>
+
+        <input type="text" class="search-query">
+        <button onclick="playID()" class="search">search</button>
+    </div>
+
+    <script src="https://www.youtube.com/player_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
