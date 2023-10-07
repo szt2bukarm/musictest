@@ -23,19 +23,19 @@ function onYouTubeIframeAPIReady() {
     });
   } else {
     player = new YT.Player("player", {
-        width: "0",
-        height: "0",
-        events: {
-            onReady: onPlayerReady,
-            onStateChange: onPlayerStateChange,
-          },    
-    })
-    console.log('fasz');
+      width: "0",
+      height: "0",
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
+      },
+    });
+    console.log("fasz");
   }
 }
 
 function playButton() {
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+  player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
 }
 
 function onPlayerReady(event) {
@@ -52,12 +52,12 @@ function onPlayerStateChange(event) {
 
     playerSlider.max = player.getDuration();
     playerSlider.value = player.getCurrentTime();
-    startTimeStampUpdate()
+    startTimeStampUpdate();
   }
   if (state == YT.PlayerState.PAUSED) {
     PlayPause.innerHTML = "▶";
-    updateTimeStamps()
-    stopTimeStampUpdate()
+    updateTimeStamps();
+    stopTimeStampUpdate();
   }
   if (state == YT.PlayerState.BUFFERING) {
     PlayPause.innerHTML = "⏳";
@@ -68,47 +68,48 @@ function onPlayerStateChange(event) {
 }
 
 function secToStamp(sec) {
-    var date = new Date(null);
-    date.setSeconds(sec);
-    return date.toISOString().substr(14, 5);
-  }
+  var date = new Date(null);
+  date.setSeconds(sec);
+  return date.toISOString().substr(14, 5);
+}
 
 function updateTimeStamps() {
-    CurrentTime.innerText = secToStamp(playerSlider.value)
-    TotalTime.innerText = secToStamp(playerSlider.max)
+  CurrentTime.innerText = secToStamp(playerSlider.value);
+  TotalTime.innerText = secToStamp(playerSlider.max);
 }
 let stampTimeout;
 function startTimeStampUpdate() {
-    stampTimeout = setInterval(() => {
+  stampTimeout = setInterval(() => {
     playerSlider.value = player.getCurrentTime();
-        updateTimeStamps()
-    }, 1000);
+    updateTimeStamps();
+  }, 1000);
 }
 
 function stopTimeStampUpdate() {
-    clearInterval(stampTimeout)
+  clearInterval(stampTimeout);
 }
 
 function loadVideo(id) {
-    player.loadVideoById(id);
-  }
+  player.loadVideoById(id);
+}
 
-  async function playID() {
-    try{
-    const SearchQuery = document.querySelector(".search-query");
-      if (SearchQuery.value != "") {
-        let id = await getID(SearchQuery.value)
-        console.log(id);
-        loadVideo(id);
-        SearchQuery.value = ''
-      }
-    }catch(e){offline()}
+async function playID(e) {
+  try {
+    let id = await getID(e.innerText);
+    // console.log(e.inn);
+    console.log(id);
+    loadVideo(id);
+    SearchQuery.value = "";
+  } catch (e) {
+    offline();
   }
+}
 
-  const apiKey = 'AIzaSyDfiRGCcFpdsQG4ML9PSTJjnk3KIpJugcQ';
-  const getID = async function(title) {
-
-  const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${title}&part=snippet&type=video`)
-  const data = await res.json()
-  return data.items[0].id.videoId; 
-  }
+const apiKey = "AIzaSyDfiRGCcFpdsQG4ML9PSTJjnk3KIpJugcQ";
+const getID = async function (title) {
+  const res = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${title}&part=snippet&type=video`
+  );
+  const data = await res.json();
+  return data.items[0].id.videoId;
+};
