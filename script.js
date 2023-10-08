@@ -96,7 +96,7 @@ function loadVideo(id) {
 async function playID(e) {
   try {
     let id = await getID(e.innerText + " audio");
-    // console.log(e.inn);
+    console.log(e.innerText + " audio");
     console.log(id);
     loadVideo(id);
     SearchQuery.value = "";
